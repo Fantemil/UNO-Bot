@@ -49,7 +49,27 @@ public class kartenstapel
         }
         return deck;
     }
-
+    public boolean selbeFarbe(String zuspielen, String aufStapel){
+        // check if "blau:" or "grün:" or "gelb:" or "rot:" is in zuspielen
+        // no startswith
+        if (zuspielen.contains("blau:") || zuspielen.contains("grün:") || zuspielen.contains("gelb:") || zuspielen.contains("rot:")){
+            // check if "blau:" or "grün:" or "gelb:" or "rot:" is in aufStapel
+            if (aufStapel.contains("blau:") || aufStapel.contains("grün:") || aufStapel.contains("gelb:") || aufStapel.contains("rot:")){
+                // check if the color is the same
+                if (zuspielen.split(":")[0].equals(aufStapel.split(":")[0])){
+                    return true;
+                }
+            }
+        }
+        // else if check if the numbers after the ":" are the same, if there is a ":"
+        else if (zuspielen.contains(":") && aufStapel.contains(":")){
+            if (zuspielen.split(":")[1].equals(aufStapel.split(":")[1])){
+                return true;
+            }
+        }
+        return false;
+        
+    }
     // Nicht von Hand geschrieben!
     public String ziehekarte(){
         Random rand = new Random();
