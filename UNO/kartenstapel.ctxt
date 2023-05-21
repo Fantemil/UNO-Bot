@@ -1,0 +1,11 @@
+#BlueJ class context
+comment0.target=kartenstapel
+comment1.params=
+comment1.target=kartenstapel()
+comment2.params=aktuelleKarte
+comment2.target=java.lang.String\ visualisiereAktuelleKarte(java.lang.String)
+comment3.params=anzahlKarten
+comment3.target=java.util.ArrayList\ generiereDeck(int)
+comment4.params=
+comment4.target=java.lang.String\ ziehekarte()
+numComments=5
