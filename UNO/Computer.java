@@ -14,7 +14,7 @@ public class Computer
         werte.put("vierplus", 100);
         werte.put("zweiplus", 99);
         werte.put("farbwahl", 98);
-        werte.put("aussetzen", 97);
+        werte.put("aussetzen", 101);
         werte.put("9", 96);
         werte.put("8", 96);
         werte.put("7", 96);
