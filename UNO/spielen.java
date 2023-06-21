@@ -85,7 +85,8 @@ public class spielen
                     for (int i = 0; i < spielerdeck.size(); i++){
                         if (kartenstapel.selbeFarbe(spielerdeck.get(i), stapel)){
                             canplay = true;
-                        } else if (kartenstapel.gibKartenInhalt(spielerdeck.get(i)).contains(kartenstapel.gibKartenInhalt(stapel))){
+                        // if the card is not a vierplus card or a farbwahl card, check if the number matches
+                        } else if (kartenstapel.gibKartenInhalt(spielerdeck.get(i)).contains(kartenstapel.gibKartenInhalt(stapel)) && !spielerdeck.get(i).contains("vierplus") && !spielerdeck.get(i).contains("farbwahl")){
                             canplay = true;
                         }
                     }
