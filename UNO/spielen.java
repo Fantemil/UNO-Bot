@@ -226,8 +226,6 @@ public class spielen
                     for (int i = 0; i < spielerdeck.size(); i++){
                         if (kartenstapel.selbeFarbe(spielerdeck.get(i), wunsch+":")){
                             canplay = true;
-                        } else if (kartenstapel.gibKartenInhalt(spielerdeck.get(i)).contains(kartenstapel.gibKartenInhalt(stapel))){
-                            canplay = true;
                         }
                     }
                     if (canplay == false){
