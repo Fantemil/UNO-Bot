@@ -27,7 +27,7 @@ public class spielen
     String[] farben = {"blau", "gruen", "gelb", "rot"};
     public spielen(){
     
-         
+
         ut.ascii();
         ut.print("\n Willkommen zu UNO in Java!\n\nVon Emil Toth, Jakob Schmid und Ulrich Weber");
         ut.print("Setze deinen Spielername: ");
@@ -248,17 +248,7 @@ public class spielen
                                 aussetzen = true;
                             }
                             farbwahl = false;
-                        } else if (kartenstapel.gibKartenInhalt(zuspielen).contains(kartenstapel.gibKartenInhalt(stapel))){
-                            stapel = zuspielen;
-                            spielerdeck.remove(karte-1);
-                            visualisiereSpielfeld(2);
-                            if (zuspielen.contains("zweiplus")){
-                                zweiplus = true;
-                            } else if (zuspielen.contains("aussetzen")){
-                                aussetzen = true;
-                            }
-                            farbwahl = false;
-                        } 
+                        }
                         
                         
                         else {
@@ -277,10 +267,7 @@ public class spielen
 
 
 
-            //COMPUTER:
-            for (int i = 0; i < computerdeck.size(); i++){
-                ut.print(computerdeck.get(i));
-            }
+            //computerzug
             if (aussetzen == false){
 
                 if (vierplus){
@@ -341,32 +328,19 @@ public class spielen
                                     break;
                                 }
                             }
-                            visualisiereSpielfeld(1);
-                            ut.print("Der Computer hat eine Karte gespielt! (Enter druecken zum weiterspielen)");
-                            ut.input();
-                            farbwahl = false;
-                            break;
-                        } // else if it has the same number
-                        //only prepare the if statement
-                        else if (kartenstapel.gibKartenInhalt(computerdeckkopie.get(indexofbest)).equals(kartenstapel.gibKartenInhalt(stapel))){
-                            stapel = computerdeckkopie.get(indexofbest);
-                            //for i in computerdeck:
-                            for (int i = 0; i < computerdeck.size(); i++){
-                                if (computerdeck.get(i).equals(computerdeckkopie.get(indexofbest))){
-                                    computerdeck.remove(i);
-                                    break;
-                                }
-                            }
                             if (computerdeckkopie.get(indexofbest).contains("zweiplus")){
                                 zweiplus = true;
                             } else if (computerdeckkopie.get(indexofbest).contains("aussetzen")){
                                 aussetzen = true;
                             }
                             visualisiereSpielfeld(1);
-                            ut.print("Der Computer hat eine Karte gespielt (farben gekreuzt)! (Enter druecken zum weiterspielen)");
+                            ut.print("Der Computer hat eine Karte gespielt! (Enter druecken zum weiterspielen)");
                             ut.input();
+                            farbwahl = false;
+                            
                             break;
-                        }
+                        } // else if it has the same number
+                        //only prepare the if statement
                         else{
                             computerdeckkopie.remove(indexofbest);
                         }
