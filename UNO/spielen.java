@@ -4,53 +4,97 @@ import java.util.ArrayList;
 
 public class spielen
 {
-
+    // definieren von username (der name des spielers)
     public String username;
+
     // definieren von ut (ut steht fuer "utility"). bezieht sich auf die "werkzeuge" klasse
     public werkzeuge ut = new werkzeuge();
+
+    // definieren von spieler und computer (spieler und computer sind objekte der klasse "Spieler" und "Computer")
     public Spieler spieler = new Spieler();
     public Computer computer = new Computer();
+
+    /*  definieren von kartenstapel (kartenstapel ist ein objekt der klasse "Kartenstapel") und ist für das ziehen von karten zustaendig
+    sowie fuer andere kartenbasierte funktionen */
     public kartenstapel kartenstapel = new kartenstapel();
+
+    // definieren von kartenanzahl (kartenanzahl ist die anzahl der karten, die der spieler und der computer zu beginn des spiels erhalten)
     public int kartenanzahl;
+
+    // definieren von aussetzen, zweiplus, vierplus, farbwahl (diese variablen sind fuer die funktionen der karten zustaendig wenn diese gelegt werden)
     public boolean aussetzen = false;
     public boolean zweiplus = false;
     public boolean vierplus = false;
     public boolean farbwahl = false;
+
+    // definieren von spielergezogen (spielergezogen ist eine variable, die angibt, ob der spieler bereits gezogen hat)
     public boolean spielergezogen = false;
+
+    // definieren von spielerdeck (spielerdeck ist ein array mit dynamischer länge (je nach kartenanzahl), welches die karten des spielers speichert)
     public ArrayList<String> spielerdeck;
+
+    // definieren von computerdeck (computerdeck ist ein array mit dynamischer länge (je nach kartenanzahl), welches die karten des computers speichert)
     public ArrayList<String> computerdeck = new ArrayList<>();
+
+    // definieren von computerdeckkopie (computerdeckkopie ist fuer funktionen des Computers notwendig)
     public ArrayList<String> computerdeckkopie = new ArrayList<>();
+
+    // definieren von stapel (die variable stapel speichert die aktuelle karte, die auf dem stapel liegt)
     public String stapel;
+
+    // definieren von wunsch (wunsch ist die farbe, die der spieler/computer waehlt, wenn er eine farbwahl/vierplus karte legt)
     public String wunsch;
+
+    // definieren von blau, gruen, gelb, rot (diese variablen benutzt der computer um bei einer farbwahl/vierplus karte die farbe zu waehlen)
     public int blau;
     public int gruen;
     public int gelb;
     public int rot;
+
+    // definieren von indexofbest (indexofbest ist der index der besten karte, die der computer legen könnte)
     public int indexofbest;
+
+    // definieren von canplay (canplay ist eine variable, die angibt, ob der spieler/computer eine karte legen kann)
     boolean canplay;
+
+    // definieren von farben (farben ist ein array, das alle farben enthaelt damit der computer im zweifelsfall eine farbe waehlen kann)
     String[] farben = {"blau", "gruen", "gelb", "rot"};
     public spielen(){
     
-
+        // ut.ascii() ist eine funktion, die den text "UNO" in ascii art ausgibt
         ut.ascii();
+
+        // ut.print() ist eine abstrahierende Methode für System.out.println()
         ut.print("\n Willkommen zu UNO in Java!\n\nVon Emil Toth, Jakob Schmid und Ulrich Weber");
         ut.print("Setze deinen Spielername: ");
+
+        // ut.input() frägt nach einer eingabe und gibt diese zurück
         username = ut.input();
         ut.print("Mit wie vielen Karten wird gespielt? (Empfohlen: 8)");
-        kartenanzahl = Integer.parseInt(ut.input());
+
+        //ut.stringtoint() abstrahiert Integer.parseInt() und wandelt eine String in einen Integer um
+        kartenanzahl = ut.stringtoint(ut.input());
+
+        // kartenstapel.generiereDeck() generiert eine arraylist mit einem deck voller karten und gibt dieses zurück
         spielerdeck = kartenstapel.generiereDeck(kartenanzahl);
         computerdeck = kartenstapel.generiereDeck(kartenanzahl);
         while (true){
-
+            // kartenstapel.ziehekarte() zieht eine karte aus einem unendlichen deck mit wahrscheinlichkeiten und gibt diese zurück (wird auch in generiereDeck() verwendet)
             stapel = kartenstapel.ziehekarte();
+
+            //startWith() ist eine funktion, die überprüft, ob eine string mit einem gewissen inhalt beginnt (eingebaut in java)
             if (stapel.startsWith("blau") || stapel.startsWith("gruen") || stapel.startsWith("gelb") || stapel.startsWith("rot")){
+                // break beendet eine schleife
                 break;
             } else {
                 stapel = kartenstapel.ziehekarte();
             }
         }
+
+        // ut.clr() ist eine funktion, die die konsole leert
         ut.clr();
         while(true){
+            //size() ist eine funktion, die die anzahl der inhalte eines arrays zurückgibt (eingebaut in java)
             if (spielerdeck.size() == 0){
                     ut.print("Du hast gewonnen! (Druecke Enter)");
                     ut.input();
@@ -75,6 +119,7 @@ public class spielen
                     ut.print("Du musst 4 Karten ziehen! (Enter druecken zum weiterspielen)");
                     ut.input();
                     for (int i = 0; i < 4; i++){
+                        //add() ist eine funktion, die ein element zu einem array hinzufügt (eingebaut in java)
                         spielerdeck.add(kartenstapel.ziehekarte());
                     }
                     vierplus = false;
@@ -87,18 +132,21 @@ public class spielen
                     }
                     zweiplus = false;
                 }
-
+                // visualisiereSpielfeld() ist eine funktion, die sofort das spielfeld aktualisiert, indem es die anderen visualisierungs funktionen aufruft und diese zusammenträgt.
                 visualisiereSpielfeld(2);
                     if (farbwahl == false){
 
                         
-                        //check if any of the cards can be played by checking if any number or color matches
+
                         canplay = false;
                         for (int i = 0; i < spielerdeck.size(); i++){
+                            // kartenstapel.selbeFarbe() ist eine funktion, die überprüft, ob zwei karten die gleiche farbe haben
                             if (kartenstapel.selbeFarbe(spielerdeck.get(i), stapel)){
                                 canplay = true;
-                            // if the card is not a vierplus card or a farbwahl card, check if the number matches
+                            // get() ist eine funktion für ArrayLists die den inhalt eines bestimmten index zurückgibt
+                            // contains() ist eine funktion für Strings, die überprüft, ob ein string einen bestimmten inhalt hat
                             } else if (!spielerdeck.get(i).contains("vierplus") && !spielerdeck.get(i).contains("farbwahl")){
+                                // kartenstapel.gibKartenInhalt() ist eine funktion, die den inhalt einer karte zurückgibt indem er die farbe ausblendet
                                 if (kartenstapel.gibKartenInhalt(spielerdeck.get(i)).contains(kartenstapel.gibKartenInhalt(stapel))){
                                     canplay = true;
                                 }
@@ -110,7 +158,6 @@ public class spielen
                             }
                         }
                         if (canplay == false){
-                            // check if the player has a vierplus card or a farbwahl card
                             for (int i = 0; i < spielerdeck.size(); i++){
                                 if (spielerdeck.get(i).contains("vierplus")){
                                     canplay = true;
@@ -129,12 +176,15 @@ public class spielen
                             }
                         }
                         if (spielergezogen == false){
+                        //zuspielen speichert die karte selbst, die der spieler spielen möchte
                         String zuspielen;
+                        // karte speichert die nummer der karte, die der spieler spielen möchte
                         int karte;
                         ut.print("Welche Karte moechtest du spielen?");
                         while (true){
+                            // inputter speichert die eingabe des spielers temporär
                             String inputter = ut.input();
-                            //check if there is any other character than numbers
+                            // matches() ist eine funktion für Strings, die regex (regular expressions) also die suche nach bestimmten mustern ermöglicht
                             if (inputter.matches("[0-9]+")){
                                 karte = ut.stringtoint(inputter);
                                 zuspielen = spielerdeck.get(karte-1);
@@ -151,11 +201,11 @@ public class spielen
                                 zweiplus = true;
                             }
                             stapel = zuspielen;
+                            // remove() ist eine funktion für ArrayLists, die ein element aus dem array entfernt
                             spielerdeck.remove(karte-1);   
                             visualisiereSpielfeld(2);
                         
-                        } /*only do else if statement*/
-                        // if card is not vierplus or farbwahl, check if the number matches
+                        } 
                         else if (!zuspielen.contains("vierplus") && !zuspielen.contains("farbwahl")){
                             if (kartenstapel.gibKartenInhalt(zuspielen).contains(kartenstapel.gibKartenInhalt(stapel))){
                                 if (zuspielen.contains("aussetzen")){
@@ -168,7 +218,6 @@ public class spielen
                                 visualisiereSpielfeld(2);
                             }
                         } else{
-                            //check if zuspielen is a farbwahl card or a vierplus card
                             if (zuspielen.contains("vierplus")){
                                 vierplus = true;
                                 stapel = zuspielen;
@@ -255,7 +304,6 @@ public class spielen
                         visualisiereSpielfeld(2);
                         ut.print("Farbwunsch offen: "+wunsch+"!");
                         canplay = false;
-                        //for i in spielerdeck:
                         for (int i = 0; i < spielerdeck.size(); i++){
                             if (kartenstapel.selbeFarbe(spielerdeck.get(i), wunsch+":")){
                                 canplay = true;
@@ -305,7 +353,7 @@ public class spielen
 
 
 
-            //computerzug
+            //Teil des Codes welcher den Computer handled
             if (aussetzen == false){
 
                 if (vierplus){
@@ -335,18 +383,18 @@ public class spielen
 
                         continue;
                     }
-                    // for i in range(len(computerdeck)):
+                    //clear() ist eine ArrayList Methode, welche alle Elemente aus der Liste entfernt
                     computerdeckkopie.clear();
+
+                    //addAll() ist eine ArrayList Methode, welche alle Elemente aus einer Liste in eine andere Liste kopiert, ohne auf die originale Liste zu zeigen und somit die originale Liste zu veraendern
                     computerdeckkopie.addAll(computerdeck);
                     for (int i = 0; i < computerdeckkopie.size(); i++){
-                        // if the card is a special card remove it from computerdeckkopie
                         if (computerdeckkopie.get(i).contains("vierplus") || computerdeckkopie.get(i).contains("farbwahl")){
                             computerdeckkopie.remove(i);
                         }
                         
                     }
                     while (true){
-                        // if computerdeckkopie is empty, the computer has no playable cards
                         if (computerdeckkopie.size() == 0){
                             ut.print("Der Computer kann keine Karte spielen! Er zieht eine Karte! (Enter druecken zum weiterspielen)");
                             ut.input();
@@ -354,13 +402,12 @@ public class spielen
                             visualisiereSpielfeld(1);
                             break;
                         }
+                        //computer.ermittleWert() gibt den Index der best möglichen Karte zurück
                         indexofbest = computer.ermittleWert(computerdeckkopie);
-
-                        //check if the card is playable by checking if the color is the same as in wunsch
                         if (kartenstapel.selbeFarbe(computerdeckkopie.get(indexofbest), wunsch+":")){
                             stapel = computerdeckkopie.get(indexofbest);
-                            //for i in computerdeck:
                             for (int i = 0; i < computerdeck.size(); i++){
+                                //equals() ist eine String Methode, welche zwei Strings vergleicht
                                 if (computerdeck.get(i).equals(computerdeckkopie.get(indexofbest))){
                                     computerdeck.remove(i);
                                     break;
@@ -377,8 +424,7 @@ public class spielen
                             farbwahl = false;
                             
                             break;
-                        } // else if it has the same number
-                        //only prepare the if statement
+                        }
                         else{
                             computerdeckkopie.remove(indexofbest);
                         }
@@ -397,10 +443,8 @@ public class spielen
                             break;
                         }
                         indexofbest = computer.ermittleWert(computerdeckkopie);
-                        //check if the card is playable by checking if the color is the same as in wunsch
                         if (kartenstapel.selbeFarbe(computerdeckkopie.get(indexofbest), stapel)){
                             stapel = computerdeckkopie.get(indexofbest);
-                            //for i in computerdeck:
                             for (int i = 0; i < computerdeck.size(); i++){
                                 if (computerdeck.get(i).equals(computerdeckkopie.get(indexofbest))){
                                     computerdeck.remove(i);
@@ -416,10 +460,10 @@ public class spielen
                             ut.print("Der Computer hat eine Karte gespielt! (Enter druecken zum weiterspielen)");
                             ut.input();
                             break;
-                        } // else if the card is a special card
+                        } 
                         else if (computerdeckkopie.get(indexofbest).contains("vierplus")){
                             stapel = computerdeckkopie.get(indexofbest);
-                            //for i in computerdeck:
+                            
                             for (int i = 0; i < computerdeck.size(); i++){
                                 if (computerdeck.get(i).equals(computerdeckkopie.get(indexofbest))){
                                     computerdeck.remove(i);
@@ -431,17 +475,13 @@ public class spielen
                             ut.input();
                             vierplus = true;
                             farbwahl = true;
-                            // pick a random number from 0 to 3
                             blau = 0;
                             rot = 0;
                             gelb = 0;
                             gruen = 0;
 
-                            // for i in his deck
                             for (int i = 0; i < computerdeck.size(); i++){
-                                // if the card is not vierplus or farbwahl
                                 if (!computerdeck.get(i).contains("vierplus") && !computerdeck.get(i).contains("farbwahl")){
-                                    // if the card is blue
                                     if (computerdeck.get(i).contains("blau")){
                                         blau++;
                                     } else if (computerdeck.get(i).contains("rot")){
@@ -455,7 +495,6 @@ public class spielen
 
                                 
                             }
-                            // if the color with the most cards is blue
                             if (blau > rot && blau > gelb && blau > gruen){
                                 wunsch = "blau:";
                             } else if (rot > blau && rot > gelb && rot > gruen){
@@ -465,7 +504,6 @@ public class spielen
                             } else if (gruen > rot && gruen > gelb && gruen > blau){
                                 wunsch = "gruen:";
                             } else {
-                                // pick a random number from 0 to 3
                                 int random = (int) (Math.random() * 4);
                                 wunsch = farben[random];
                             }
@@ -473,7 +511,6 @@ public class spielen
                             break;
                         } else if (computerdeckkopie.get(indexofbest).contains("farbwahl")){
                             stapel = computerdeckkopie.get(indexofbest);
-                            // for i in computerdeck:
                             for (int i = 0; i < computerdeck.size(); i++){
                                 if (computerdeck.get(i).equals(computerdeckkopie.get(indexofbest))){
                                     computerdeck.remove(i);
@@ -489,11 +526,8 @@ public class spielen
                             gelb = 0;
                             gruen = 0;
 
-                            // for i in his deck
                             for (int i = 0; i < computerdeck.size(); i++){
-                                // if the card is not vierplus or farbwahl
                                 if (!computerdeck.get(i).contains("vierplus") && !computerdeck.get(i).contains("farbwahl")){
-                                    // if the card is blue
                                     if (computerdeck.get(i).contains("blau")){
                                         blau++;
                                     } else if (computerdeck.get(i).contains("rot")){
@@ -507,7 +541,6 @@ public class spielen
 
                                 
                             }
-                            // if the color with the most cards is blue
                             if (blau > rot && blau > gelb && blau > gruen){
                                 wunsch = "blau:";
                             } else if (rot > blau && rot > gelb && rot > gruen){
@@ -517,7 +550,6 @@ public class spielen
                             } else if (gruen > rot && gruen > gelb && gruen > blau){
                                 wunsch = "gruen:";
                             } else {
-                                // pick a random number from 0 to 3
                                 int random = (int) (Math.random() * 4);
                                 wunsch = farben[random];
                             }
@@ -525,7 +557,6 @@ public class spielen
                             break;
                         } else if (kartenstapel.gibKartenInhalt(computerdeckkopie.get(indexofbest)).equals(kartenstapel.gibKartenInhalt(stapel))){
                             stapel = computerdeckkopie.get(indexofbest);
-                            //for i in computerdeck:
                             for (int i = 0; i < computerdeck.size(); i++){
                                 if (computerdeck.get(i).equals(computerdeckkopie.get(indexofbest))){
                                     computerdeck.remove(i);
@@ -580,8 +611,11 @@ public class spielen
     public void visualisiereSpielfeld(int zug){
         if(zug == 2){
             ut.clr();
+            //computer.visualisiereDeck ist eine Methode aus der Klasse Computer, die das Deck des Computers visualisiert und zurueckgibt
             ut.print("Computer: " + computer.visualisiereDeck(computerdeck)+ "\n\n\n\n");
+            //visualisiereAktuelleKarte ist eine Methode aus der Klasse Kartenstapel, die die aktuelle Karte visualisiert und zurueckgibt
             ut.print("Stapel: " + kartenstapel.visualisiereAktuelleKarte(stapel)+"\n\n\n\n"); 
+            //visualisiereDeck ist eine Methode aus der Klasse Spieler, die das Deck des Spielers visualisiert und zurueckgibt
             ut.print(">>> "+username +": " + spieler.visualisiereDeck(spielerdeck));
             ut.print("\n\n");
         }
