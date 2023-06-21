@@ -259,6 +259,8 @@ public class spielen
                 }
             } else {
                 aussetzen = false;
+                ut.print("Du musst aussetzen! (Enter druecken zum weiterspielen)");
+                ut.input();
             }
             
 
@@ -368,6 +370,11 @@ public class spielen
                                     computerdeck.remove(i);
                                     break;
                                 }
+                            }
+                            if (computerdeckkopie.get(indexofbest).contains("zweiplus")){
+                                zweiplus = true;
+                            } else if (computerdeckkopie.get(indexofbest).contains("aussetzen")){
+                                aussetzen = true;
                             }
                             visualisiereSpielfeld(1);
                             ut.print("Der Computer hat eine Karte gespielt! (Enter druecken zum weiterspielen)");
