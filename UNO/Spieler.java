@@ -11,7 +11,7 @@ public class Spieler
         for (int i = 0; i < kartenanzahl; i++){
             int kartennummer = i+1;
             visualisiertesDeck = visualisiertesDeck + "[" + ut.inttostring(kartennummer) + "] ";
-            if (deck.get(i).startsWith("blau") || deck.get(i).startsWith("grün") || deck.get(i).startsWith("gelb") || deck.get(i).startsWith("rot")){
+            if (deck.get(i).startsWith("blau") || deck.get(i).startsWith("gruen") || deck.get(i).startsWith("gelb") || deck.get(i).startsWith("rot")){
                 farbe = deck.get(i).split(":")[0];
                 karte = deck.get(i).split(":")[1];
                 if (karte.matches("[0-9]+")){

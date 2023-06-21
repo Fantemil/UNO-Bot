@@ -1,3 +1,5 @@
+ 
+
 import java.util.Random;
 import java.util.ArrayList;
 public class kartenstapel
@@ -13,7 +15,7 @@ public class kartenstapel
     public String visualisiereAktuelleKarte(String aktuelleKarte){
         String farbe;
         String karte;
-        if (aktuelleKarte.startsWith("blau") || aktuelleKarte.startsWith("grün") || aktuelleKarte.startsWith("gelb") || aktuelleKarte.startsWith("rot")){
+        if (aktuelleKarte.startsWith("blau") || aktuelleKarte.startsWith("gruen") || aktuelleKarte.startsWith("gelb") || aktuelleKarte.startsWith("rot")){
             farbe = aktuelleKarte.split(":")[0];
             karte = aktuelleKarte.split(":")[1];
             if (karte.matches("[0-9]+")){
@@ -50,11 +52,11 @@ public class kartenstapel
         return deck;
     }
     public boolean selbeFarbe(String zuspielen, String aufStapel){
-        // check if "blau:" or "grün:" or "gelb:" or "rot:" is in zuspielen
+        // check if "blau:" or "gruen:" or "gelb:" or "rot:" is in zuspielen
         // no startswith
-        if (zuspielen.contains("blau:") || zuspielen.contains("grün:") || zuspielen.contains("gelb:") || zuspielen.contains("rot:")){
-            // check if "blau:" or "grün:" or "gelb:" or "rot:" is in aufStapel
-            if (aufStapel.contains("blau:") || aufStapel.contains("grün:") || aufStapel.contains("gelb:") || aufStapel.contains("rot:")){
+        if (zuspielen.contains("blau:") || zuspielen.contains("gruen:") || zuspielen.contains("gelb:") || zuspielen.contains("rot:")){
+            // check if "blau:" or "gruen:" or "gelb:" or "rot:" is in aufStapel
+            if (aufStapel.contains("blau:") || aufStapel.contains("gruen:") || aufStapel.contains("gelb:") || aufStapel.contains("rot:")){
                 // check if the color is the same
                 if (zuspielen.split(":")[0].equals(aufStapel.split(":")[0])){
                     return true;
@@ -70,6 +72,12 @@ public class kartenstapel
         return false;
         
     }
+    public String gibKartenInhalt(String karte){
+        //return the raw splitted card
+        String splitted = karte.split(":")[1];
+        return splitted;
+    }
+    
     // Nicht von Hand geschrieben!
     public String ziehekarte(){
         Random rand = new Random();
@@ -81,7 +89,7 @@ public class kartenstapel
             return "blau:0";
         }
         else if (random <= 12){
-            return "grün:0";
+            return "gruen:0";
         }
         else if (random <= 16){
             return "gelb:0";
@@ -93,7 +101,7 @@ public class kartenstapel
             return "blau:1";
         }
         else if (random <= 28){
-            return "grün:1";
+            return "gruen:1";
         }
         else if (random <= 32){
             return "gelb:1";
@@ -105,7 +113,7 @@ public class kartenstapel
             return "blau:2";
         }
         else if (random <= 44){
-            return "grün:2";
+            return "gruen:2";
         }
         else if (random <= 48){
             return "gelb:2";
@@ -117,7 +125,7 @@ public class kartenstapel
             return "blau:3";
         }
         else if (random <= 60){
-            return "grün:3";
+            return "gruen:3";
         }
         else if (random <= 64){
             return "gelb:3";
@@ -129,7 +137,7 @@ public class kartenstapel
             return "blau:4";
         }
         else if (random <= 76){
-            return "grün:4";
+            return "gruen:4";
         }
         else if (random <= 80){
             return "gelb:4";
@@ -141,7 +149,7 @@ public class kartenstapel
             return "blau:5";
         }
         else if (random <= 92){
-            return "grün:5";
+            return "gruen:5";
         }
         else if (random <= 96){
             return "gelb:5";
@@ -153,7 +161,7 @@ public class kartenstapel
             return "blau:6";
         }
         else if (random <= 108){
-            return "grün:6";
+            return "gruen:6";
         }
         else if (random <= 112){
             return "gelb:6";
@@ -165,7 +173,7 @@ public class kartenstapel
             return "blau:7";
         }
         else if (random <= 124){
-            return "grün:7";
+            return "gruen:7";
         }
         //until 9
         else if (random <= 128){
@@ -178,7 +186,7 @@ public class kartenstapel
             return "blau:8";
         }
         else if (random <= 140){
-            return "grün:8";
+            return "gruen:8";
         }
         else if (random <= 144){
             return "gelb:8";
@@ -190,7 +198,7 @@ public class kartenstapel
             return "blau:9";
         }
         else if (random <= 156){
-            return "grün:9";
+            return "gruen:9";
         }
         else if (random <= 160){
             return "gelb:9";
@@ -202,7 +210,7 @@ public class kartenstapel
             return "blau:zweiplus";
         }
         else if (random <= 172){
-            return "grün:zweiplus";
+            return "gruen:zweiplus";
         }
         else if (random <= 176){
             return "gelb:zweiplus";
@@ -214,7 +222,7 @@ public class kartenstapel
             return "blau:aussetzen";
         }
         else if (random <= 188){
-            return "grün:aussetzen";
+            return "gruen:aussetzen";
         }
         else if (random <= 192){
             return "gelb:aussetzen";
@@ -227,6 +235,4 @@ public class kartenstapel
         }
         return "error";
     }
-  
-   
 }
