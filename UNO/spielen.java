@@ -300,8 +300,6 @@ public class spielen
                     for (int i = 0; i < computerdeck.size(); i++){
                         if (kartenstapel.selbeFarbe(computerdeck.get(i), wunsch+":")){
                             canplay = true;
-                        } else if (kartenstapel.gibKartenInhalt(computerdeck.get(i)).equalsIgnoreCase(stapel)){
-                            canplay = true;
                         }
                     }
                     if (canplay == false){
