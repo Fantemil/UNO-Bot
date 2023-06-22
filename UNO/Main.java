@@ -554,7 +554,7 @@ public class Main
                         }
                         
                         visualisiereSpielfeld(2);
-                                
+                            
                         if (canplay == false && spielergezogen == false){
                             ut.print("Du kannst keine Karte spielen! Ziehe eine Karte! (Enter dr\u00fccken zum weiterspielen)");
                             ut.input();
