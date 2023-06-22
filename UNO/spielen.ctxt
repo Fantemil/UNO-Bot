@@ -1,7 +1,7 @@
 #BlueJ class context
 comment0.target=spielen
 comment1.params=
-comment1.target=spielen()
-comment2.params=zug
-comment2.target=void\ visualisiereSpielfeld(int)
+comment1.target=Main()
+comment2.params=
+comment2.target=spielen()
 numComments=3
