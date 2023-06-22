@@ -4,7 +4,7 @@ public class spielen {
     public spielen(){
         ausfuehren.ausfuehren();
         while (true){
-            ut.print("Zum neustarten Enter dr\\u00fccken");
+            ut.print("Zum neustarten Enter drücken");
             ut.input();
             ausfuehren.ausfuehren();
         }
