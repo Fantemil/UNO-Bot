@@ -27,7 +27,12 @@ public class werkzeuge
         return scanner.nextLine();
     }
     public void print(String text) {
+       
+        
         System.out.println(text);
+      
+        
+        
     }
     public void prints(String text) {
         System.out.print(text);
