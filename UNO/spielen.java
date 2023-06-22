@@ -246,7 +246,7 @@ public class spielen
 
                             }}
                         
-                        }
+                        
                         visualisiereSpielfeld(2);
                         
                         for (int i = 0; i < spielerdeck.size(); i++){
@@ -535,7 +535,7 @@ public class spielen
                             }
                         }
                         
-                    }
+                    }}
                     else if (farbwahl == true && spielt){
                         visualisiereSpielfeld(2);
                        
