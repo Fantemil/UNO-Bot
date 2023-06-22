@@ -27,8 +27,6 @@ public class werkzeuge
         return scanner.nextLine();
     }
     public void print(String text) {
-       
-        
         System.out.println(text);
       
         
@@ -47,7 +45,4 @@ public class werkzeuge
     public String inttostring(int i){
         return Integer.toString(i);
     }
-
-
-
 }

@@ -65,6 +65,12 @@ public class spielen
 
     //definieren von schongezogen (speichert, ob der computer bereits gezogen hat)
     public boolean schongezogen = false;
+
+    // definieren von common (Die farbkarte die der spieler am meisten hat wenn er eine farbwahl/vierplus karte legt)
+    String common;
+
+    // definieren von temp (temp ist für die farbsortierungs funktion des spielers von bedeutung)
+    String temp;
     public spielen(){
     
         // ut.ascii() ist eine funktion, die den text "UNO" in ascii art ausgibt
@@ -112,7 +118,7 @@ public class spielen
             spielt = true;
             //size() ist eine funktion, die die anzahl der inhalte eines arrays zurueckgibt (eingebaut in java)
             if (spielerdeck.size() == 0){
-                    ut.print("Du hast gewonnen! (Druecke Enter)");
+                    ut.print("Du hast gewonnen! (Dr\u00fccke Enter)");
                     ut.input();
                     ut.clr();
                     ut.ascii();
@@ -120,19 +126,19 @@ public class spielen
                     break;
                 }
             else if (computerdeck.size() == 0){
-                ut.print("Der Computer hat gewonnen! (Druecke Enter)");
+                ut.print("Der Computer hat gewonnen! (Dr\u00fccke Enter)");
                 ut.input();
                 ut.clr();
                 ut.ascii();
-                ut.print("\nUNO in Java!\n\nProgrammierung: Emil Toth, Ulrich Weber\nDokumentation: Jakob Schmid\nBughunting: Ulrich Weber\n\nVielen Dank fuers spielen!");
+                ut.print("\nUNO in Java!\n\nProgrammierung: Emil Toth, Ulrich Weber\nDokumentation: Jakob Schmid\nBughunting: Ulrich Weber\n\nVielen Dank f\u00fcrs spielen!");
                 break;
             }
 
             if (aussetzen == false && spielt) {
-                spielergezogen = false;
+                
                 
                 if (vierplus){
-                    ut.print("Du musst 4 Karten ziehen! (Enter druecken zum weiterspielen)");
+                    ut.print("Du musst 4 Karten ziehen! (Enter dr\u00fccken zum weiterspielen)");
                     ut.input();
                     for (int i = 0; i < 4; i++){
                         //add() ist eine funktion, die ein element zu einem array hinzufuegt (eingebaut in java)
@@ -149,7 +155,7 @@ public class spielen
                             continue;
                         }
                         else if (kartenstapel.gibKartenInhalt(spielerdeck.get(i)).equals("zweiplus")){
-                            ut.print("Moechtest du einer deiner +2 karten ueberlagern? (j/n)");
+                            ut.print("M\u00f6chtest du eine deiner +2 karten \u00fcberlagern? (j/n)");
                             while (true){
                                 String input = ut.input();
                                 if (input.equals("j")){
@@ -163,7 +169,7 @@ public class spielen
                                     break;
                                 }
                                 else if (input.equals("n")){
-                                    ut.print("Du musst " + ut.inttostring(zweiplusstack) + " Karten ziehen! (Enter druecken zum weiterspielen)");
+                                    ut.print("Du musst " + ut.inttostring(zweiplusstack) + " Karten ziehen! (Enter dr\u00fccken zum weiterspielen)");
                                     ut.input();
                                     for (int j = 0; j < zweiplusstack; j++){
                                         spielerdeck.add(kartenstapel.ziehekarte());
@@ -184,7 +190,7 @@ public class spielen
                     }
 
                     if (mussziehen){
-                    ut.print("Du musst " + ut.inttostring(zweiplusstack) + " Karten ziehen! (Enter druecken zum weiterspielen)");
+                    ut.print("Du musst " + ut.inttostring(zweiplusstack) + " Karten ziehen! (Enter dr\u00fccken zum weiterspielen)");
                     ut.input();
                     for (int i = 0; i < zweiplusstack; i++){
                         spielerdeck.add(kartenstapel.ziehekarte());
@@ -202,6 +208,14 @@ public class spielen
                         for (int i = 0; i < spielerdeck.size(); i++){
                             // kartenstapel.selbeFarbe() ist eine funktion, die ueberprueft, ob zwei karten die gleiche farbe haben
                             if (kartenstapel.selbeFarbe(spielerdeck.get(i), stapel)){
+                                temp = spielerdeck.get(i);
+                                // move the card to the front of the array:
+                                //so first remove the card
+                                //then add it to the front
+                                //then break the loop
+                                
+                                
+                                
                                 canplay = true;
                             // get() ist eine funktion fuer ArrayLists die den inhalt eines bestimmten index zurueckgibt
                             // contains() ist eine funktion fuer Strings, die ueberprueft, ob ein string einen bestimmten inhalt hat
@@ -216,37 +230,54 @@ public class spielen
                             } else if (spielerdeck.get(i).contains("farbwahl")){
                                 canplay = true;
                             }
+                            if (!spielerdeck.get(i).equals("vierplus") && !spielerdeck.get(i).equals("farbwahl") && !stapel.equals("farbwahl") && !stapel.equals("vierplus")){
+                                String aufdeck = kartenstapel.gibKartenInhalt(stapel);
+                                if (aufdeck.equals(kartenstapel.gibKartenInhalt(spielerdeck.get(i)))){
+                                    temp = spielerdeck.get(i);
+                                    spielerdeck.remove(i);
+                                    spielerdeck.add(0, temp);
+                                }
+                            }
+                            if (stapel.startsWith(spielerdeck.get(i).split(":")[0])){
+                                temp = spielerdeck.get(i);
+                                spielerdeck.remove(i);
+                                //add to index 0
+                                spielerdeck.add(0, temp);                                
+
+                            }}
+                        
                         }
-                        if (canplay == false ){
-                            for (int i = 0; i < spielerdeck.size(); i++){
-                                if (spielerdeck.get(i).contains("vierplus")){
-                                    canplay = true;
-                                    break;
-                                }
-                                else if (spielerdeck.get(i).contains("farbwahl")){
-                                    canplay = true;
-                                    break;
-                                }
+                        visualisiereSpielfeld(2);
+                        
+                        for (int i = 0; i < spielerdeck.size(); i++){
+                            if (spielerdeck.get(i).contains("vierplus")){
+                                canplay = true;
+                                break;
                             }
-                            if (canplay == false && spielergezogen == false){
-                                ut.print("Du kannst keine Karte spielen! Ziehe eine Karte! (Enter druecken zum weiterspielen)");
-                                ut.input();
-                                spielerdeck.add(kartenstapel.ziehekarte());
-                                spielergezogen = true;
-                                visualisiereSpielfeld(2);
-                                continue;
-                            } else if (canplay == false && spielergezogen){
-                                ut.print("Du kannst keine Karte spielen! (Enter druecken zum weiterspielen)");
-                                ut.input();
-                                visualisiereSpielfeld(2);
+                            else if (spielerdeck.get(i).contains("farbwahl")){
+                                canplay = true;
+                                break;
                             }
-                        } 
-                        else if (canplay == true){
+                        }
+                        if (canplay == false && spielergezogen == false){
+                            ut.print("Du kannst keine Karte spielen! Ziehe eine Karte! (Enter dr\u00fccken zum weiterspielen)");
+                            ut.input();
+                            spielerdeck.add(kartenstapel.ziehekarte());
+                            spielergezogen = true;
+                            visualisiereSpielfeld(2);
+                            continue;
+                        } else if (canplay == false && spielergezogen){
+                            ut.print("Du kannst keine Karte spielen! (Enter dr\u00fccken zum weiterspielen)");
+                            ut.input();
+                            visualisiereSpielfeld(2);
+                        }
+                        
+                        if (canplay == true){
                         //zuspielen speichert die karte selbst, die der spieler spielen moechte
                         String zuspielen;
                         // karte speichert die nummer der karte, die der spieler spielen moechte
                         int karte;
-                        ut.print("Welche Karte moechtest du spielen?");
+                        ut.print("Welche Karte m\u00f6chtest du spielen?");
                         while (true){
                             // inputter speichert die eingabe des spielers temporaer
                             String inputter = ut.input();
@@ -282,7 +313,7 @@ public class spielen
                         } 
                         
                         else{
-                             if (!zuspielen.contains("vierplus") && !zuspielen.contains("farbwahl")){
+                            if (!zuspielen.contains("vierplus") && !zuspielen.contains("farbwahl")){
                                 if (kartenstapel.gibKartenInhalt(zuspielen).equals(kartenstapel.gibKartenInhalt(stapel))){
                                     if (zuspielen.contains("aussetzen")){
                                         aussetzen = true;
@@ -303,7 +334,44 @@ public class spielen
                                 stapel = zuspielen;
                                 spielerdeck.remove(karte-1);
                                 visualisiereSpielfeld(2);
-                                ut.print("Du hast eine Vierplus Karte gespielt! Welche Farbe soll gespielt werden? [1] Rot [2] Gruen [3] Blau [4] Gelb");
+                                ut.print("Du hast eine Vierplus Karte gespielt! Welche Farbe soll gespielt werden? [1] Rot [2] Gr\u00fcn [3] Blau [4] Gelb");
+                                blau = 0;
+                                rot = 0;
+                                gruen = 0;
+                                gelb = 0;
+                                for (int i = 0; i < spielerdeck.size(); i++){
+                                    if (spielerdeck.get(i).contains("blau")){
+                                        blau += 1;
+                                    }
+                                    else if (spielerdeck.get(i).contains("rot")){
+                                        rot += 1;
+                                    }
+                                    else if (spielerdeck.get(i).contains("gruen")){
+                                        gruen += 1;
+                                    }
+                                    else if (spielerdeck.get(i).contains("gelb")){
+                                        gelb += 1;
+                                    }
+                                }
+                                // get the most common color
+                                if (blau > rot && blau > gruen && blau > gelb){
+                                    common = "blau";
+                                }
+                                else if (rot > blau && rot > gruen && rot > gelb){
+                                    common = "rot";
+                                }
+                                else if (gruen > blau && gruen > rot && gruen > gelb){
+                                    common = "gruen";
+                                }
+                                else if (gelb > blau && gelb > rot && gelb > gruen){
+                                    common = "gelb";
+                                }
+                                else{
+                                    common = "";
+                                }
+                                if (!common.equals("")){
+                                    ut.print("Am meisten hast du die Farbe " + common + " auf der Hand!");
+                                }
                                 while(true){
                                 int farbe;
                                 String input = ut.input();
@@ -346,7 +414,44 @@ public class spielen
                                 stapel = zuspielen;
                                 spielerdeck.remove(karte-1);
                                 visualisiereSpielfeld(2);
-                                ut.print("Du hast eine Farbwahl Karte gespielt! Welche Farbe soll gespielt werden? [1] Rot [2] Gruen [3] Blau [4] Gelb");
+                                ut.print("Du hast eine Farbwahl Karte gespielt! Welche Farbe soll gespielt werden? [1] Rot [2] Gr\u00fcn [3] Blau [4] Gelb");
+                                blau = 0;
+                                rot = 0;
+                                gruen = 0;
+                                gelb = 0;
+                                for (int i = 0; i < spielerdeck.size(); i++){
+                                    if (spielerdeck.get(i).contains("blau")){
+                                        blau += 1;
+                                    }
+                                    else if (spielerdeck.get(i).contains("rot")){
+                                        rot += 1;
+                                    }
+                                    else if (spielerdeck.get(i).contains("gruen")){
+                                        gruen += 1;
+                                    }
+                                    else if (spielerdeck.get(i).contains("gelb")){
+                                        gelb += 1;
+                                    }
+                                }
+                                // get the most common color
+                                if (blau > rot && blau > gruen && blau > gelb){
+                                    common = "blau";
+                                }
+                                else if (rot > blau && rot > gruen && rot > gelb){
+                                    common = "rot";
+                                }
+                                else if (gruen > blau && gruen > rot && gruen > gelb){
+                                    common = "gruen";
+                                }
+                                else if (gelb > blau && gelb > rot && gelb > gruen){
+                                    common = "gelb";
+                                }
+                                else{
+                                    common = "";
+                                }
+                                if (!common.equals("")){
+                                    ut.print("Am meisten hast du die Farbe " + common + " auf der Hand!");
+                                }
                                 while(true){
                                     int farbe;
                                     String input = ut.input();
@@ -431,28 +536,36 @@ public class spielen
                         }
                         
                     }
-                    } else if (farbwahl == true && spielt){
+                    else if (farbwahl == true && spielt){
                         visualisiereSpielfeld(2);
-                        ut.print("Farbwunsch offen: "+wunsch+"!");
+                       
                         canplay = false;
+                        
                         for (int i = 0; i < spielerdeck.size(); i++){
-                            if (kartenstapel.selbeFarbe(spielerdeck.get(i), wunsch+":")){
-                                canplay = true;
+                            if (spielerdeck.get(i).contains(wunsch+":")){
+                                temp = spielerdeck.get(i);
+                                spielerdeck.remove(i);
+                                //add to index 0
+                                spielerdeck.add(0, temp);                                
+
                             }
                         }
+                        
+                        visualisiereSpielfeld(2);
+                                
                         if (canplay == false && spielergezogen == false){
-                            ut.print("Du kannst keine Karte spielen! Ziehe eine Karte! (Enter druecken zum weiterspielen)");
+                            ut.print("Du kannst keine Karte spielen! Ziehe eine Karte! (Enter dr\u00fccken zum weiterspielen)");
                             ut.input();
                             spielerdeck.add(kartenstapel.ziehekarte());
                             spielergezogen = true;
                             visualisiereSpielfeld(2);
                             continue;
                         } else if (canplay == false && spielergezogen == true){
-                            ut.print("Du kannst keine Karte spielen! Du musst aussetzen! (Enter druecken zum weiterspielen)");
+                            ut.print("Du kannst keine Karte spielen! Du musst aussetzen! (Enter dr\u00fccken zum weiterspielen)");
                             ut.input();
                         }
                         else{
-                            ut.print("Welche Karte moechtest du spielen? Schwarze Sonderkarten koennen nicht gespielt werden!");
+                            ut.print("Welche Karte m\u00f6chtest du spielen? Schwarze Sonderkarten k\u00f6nnen nicht gespielt werden!\n Die gewünschte Farbe ist " + wunsch );
                             int karte;
                             String input;
                             String zuspielen;
@@ -498,7 +611,7 @@ public class spielen
             } else if (aussetzen==true){
                 visualisiereSpielfeld(2);
                 aussetzen = false;
-                ut.print("Du musst aussetzen! (Enter druecken zum weiterspielen)");
+                ut.print("Du musst aussetzen! (Enter dr\u00fccken zum weiterspielen)");
                 ut.input();
                 
             }
@@ -529,7 +642,7 @@ public class spielen
                             zweiplusstack += 2;
                             zweiplus = true;
                             visualisiereSpielfeld(1);
-                            ut.print("Der Computer hat deine 2+ Karte ueberlagert.");
+                            ut.print("Der Computer hat deine 2+ Karte \u00fcberlagert.");
                             ut.input();
                             spielt = false;
                             mussziehen = false;
@@ -538,7 +651,7 @@ public class spielen
                     }
                     if (mussziehen){
                         // for times zweiplusstack
-                        ut.print("Der Computer zieht "+zweiplusstack+" Karten! (Enter druecken zum weiterspielen)");
+                        ut.print("Der Computer zieht "+zweiplusstack+" Karten! (Enter dr\u00fccken zum weiterspielen)");
                         ut.input();
                         for (int i = 0; i < zweiplusstack; i++){
                             computerdeck.add(kartenstapel.ziehekarte());
@@ -555,7 +668,7 @@ public class spielen
                         }
                     }
                     if (canplay == false){
-                        ut.print("Der Computer kann keine Karte spielen! Er zieht eine Karte! (Enter druecken zum weiterspielen)");
+                        ut.print("Der Computer kann keine Karte spielen! Er zieht eine Karte! (Enter dr\u00fccken zum weiterspielen)");
                         ut.input();
                         computerdeck.add(kartenstapel.ziehekarte());
                         visualisiereSpielfeld(1);
@@ -574,7 +687,7 @@ public class spielen
                     }
                     while (true){
                         if (computerdeckkopie.size() == 0 && schongezogen == false){
-                            ut.print("Der Computer kann keine Karte spielen! Er zieht eine Karte! (Enter druecken zum weiterspielen)");
+                            ut.print("Der Computer kann keine Karte spielen! Er zieht eine Karte! (Enter dr\u00fccken zum weiterspielen)");
                             ut.input();
                             computerdeck.add(kartenstapel.ziehekarte());
                             computerdeckkopie.clear();
@@ -582,7 +695,7 @@ public class spielen
                             visualisiereSpielfeld(1);
                             schongezogen = true;
                         } else if(computerdeckkopie.size() == 0 && schongezogen == true){
-                            ut.print("Der Computer kann keine Karte spielen! (Enter druecken zum weiterspielen)");
+                            ut.print("Der Computer kann keine Karte spielen! (Enter dr\u00fccken zum weiterspielen)");
                             ut.input();
                             break;
                         }
@@ -604,7 +717,7 @@ public class spielen
                                 aussetzen = true;
                             }
                             visualisiereSpielfeld(1);
-                            ut.print("Der Computer hat eine Karte gespielt! (Enter druecken zum weiterspielen)");
+                            ut.print("Der Computer hat eine Karte gespielt! (Enter dr\u00fccken zum weiterspielen)");
                             ut.input();
                             farbwahl = false;
                             
@@ -621,7 +734,7 @@ public class spielen
                     
                     while (true){
                         if (computerdeckkopie.size() == 0 && schongezogen == false){
-                            ut.print("Der Computer kann keine Karte spielen! Er zieht eine Karte! (Enter druecken zum weiterspielen)");
+                            ut.print("Der Computer kann keine Karte spielen! Er zieht eine Karte! (Enter dr\u00fccken zum weiterspielen)");
                             ut.input();
                             computerdeck.add(kartenstapel.ziehekarte());
                             computerdeckkopie.clear();  
@@ -631,7 +744,7 @@ public class spielen
                             
 
                         } else if (computerdeckkopie.size() == 0 && schongezogen){
-                            ut.print("Der Computer kann nicht spielen! (Enter druecken zum weiterspielen)");
+                            ut.print("Der Computer kann nicht spielen! (Enter dr\u00fccken zum weiterspielen)");
                             ut.input();
                             break;
                         }
@@ -651,7 +764,7 @@ public class spielen
                                 aussetzen = true;
                             }
                             visualisiereSpielfeld(1);
-                            ut.print("Der Computer hat eine Karte gespielt! (Enter druecken zum weiterspielen)");
+                            ut.print("Der Computer hat eine Karte gespielt! (Enter dr\u00fccken zum weiterspielen)");
                             ut.input();
                             break;
                         } 
@@ -665,7 +778,7 @@ public class spielen
                                 }
                             }
                             visualisiereSpielfeld(1);
-                            ut.print("Der Computer hat eine 4+ Karte gespielt! (Enter druecken zum weiterspielen)");
+                            ut.print("Der Computer hat eine 4+ Karte gespielt! (Enter dr\u00fccken zum weiterspielen)");
                             ut.input();
                             vierplus = true;
                             farbwahl = true;
@@ -690,13 +803,13 @@ public class spielen
                                 
                             }
                             if (blau > rot && blau > gelb && blau > gruen){
-                                wunsch = "blau:";
+                                wunsch = "blau";
                             } else if (rot > blau && rot > gelb && rot > gruen){
-                                wunsch = "rot:";
+                                wunsch = "rot";
                             } else if (gelb > rot && gelb > blau && gelb > gruen){
-                                wunsch = "gelb:";
+                                wunsch = "gelb";
                             } else if (gruen > rot && gruen > gelb && gruen > blau){
-                                wunsch = "gruen:";
+                                wunsch = "gruen";
                             } else {
                                 int random = (int) (Math.random() * 4);
                                 wunsch = farben[random];
@@ -712,7 +825,7 @@ public class spielen
                                 }
                             }
                             visualisiereSpielfeld(1);
-                            ut.print("Der Computer hat eine farbwahl Karte gespielt! (Enter druecken zum weiterspielen)");
+                            ut.print("Der Computer hat eine farbwahl Karte gespielt! (Enter dr\u00fccken zum weiterspielen)");
                             ut.input();
                             farbwahl = true;
                             blau = 0;
@@ -736,13 +849,13 @@ public class spielen
                                 
                             }
                             if (blau > rot && blau > gelb && blau > gruen){
-                                wunsch = "blau:";
+                                wunsch = "blau";
                             } else if (rot > blau && rot > gelb && rot > gruen){
-                                wunsch = "rot:";
+                                wunsch = "rot";
                             } else if (gelb > rot && gelb > blau && gelb > gruen){
-                                wunsch = "gelb:";
+                                wunsch = "gelb";
                             } else if (gruen > rot && gruen > gelb && gruen > blau){
-                                wunsch = "gruen:";
+                                wunsch = "gruen";
                             } else {
                                 int random = (int) (Math.random() * 4);
                                 wunsch = farben[random];
@@ -764,7 +877,7 @@ public class spielen
                                 aussetzen = true;
                             }
                             visualisiereSpielfeld(1);
-                            ut.print("Der Computer hat eine Karte gespielt (farben gekreuzt)! (Enter druecken zum weiterspielen)");
+                            ut.print("Der Computer hat eine Karte gespielt (farben gekreuzt)! (Enter dr\u00fccken zum weiterspielen)");
                             ut.input();
                             break;
                         }
@@ -776,32 +889,33 @@ public class spielen
                 }
         
             } else {
-                ut.print("Der Computer setzt aus! (Enter druecken zum weiterspielen)");
+                ut.print("Der Computer setzt aus! (Enter dr\u00fccken zum weiterspielen)");
                 ut.input();
                 aussetzen = false;
             }
             if (spielerdeck.size() == 0){
-                    ut.print("Du hast gewonnen! (Druecke Enter)");
+                    ut.print("Du hast gewonnen! (Dr\u00fccke Enter)");
                     ut.input();
                     ut.clr();
                     ut.ascii();
-                    ut.print("\nUNO in Java!\n\nProgrammierung: Emil Toth, Ulrich Weber\nDokumentation: Jakob Schmid\nBughunting: Ulrich Weber\n\nVielen Dank fuers spielen!");
+                    ut.print("\nUNO in Java!\n\nProgrammierung: Emil Toth, Ulrich Weber\nDokumentation: Jakob Schmid\nBughunting: Ulrich Weber\n\nVielen Dank f\u00fcrs spielen!");
                     break;
                 }
             else if (computerdeck.size() == 0){
-                ut.print("Der Computer hat gewonnen! (Druecke Enter)");
+                ut.print("Der Computer hat gewonnen! (Dr\u00fccke Enter)");
                 ut.input();
                 ut.clr();
                 ut.ascii();
-                ut.print("\nUNO in Java!\n\nProgrammierung: Emil Toth, Ulrich Weber\nDokumentation: Jakob Schmid\nBughunting: Ulrich Weber\n\nVielen Dank fuers spielen!");
+                ut.print("\nUNO in Java!\n\nProgrammierung: Emil Toth, Ulrich Weber\nDokumentation: Jakob Schmid\nBughunting: Ulrich Weber\n\nVielen Dank f\u00fcrs spielen!");
                 break;
             }
-            }
+        
+            spielergezogen = false; }}
 
         
     
 
-    }
+    
 
     public void visualisiereSpielfeld(int zug){
         if(zug == 2){

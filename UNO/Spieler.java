@@ -7,10 +7,17 @@ public class Spieler
         String farbe;
         String karte;
         String visualisiertesDeck = "";
+        int spacecounter = 0;
         int kartenanzahl = deck.size();
         for (int i = 0; i < kartenanzahl; i++){
+            spacecounter = spacecounter + 1;
             int kartennummer = i+1;
+            if (spacecounter == 9){
+                visualisiertesDeck = visualisiertesDeck + "\n";
+                spacecounter = 0;
+            }
             visualisiertesDeck = visualisiertesDeck + "[" + ut.inttostring(kartennummer) + "] ";
+            
             if (deck.get(i).startsWith("blau") || deck.get(i).startsWith("gruen") || deck.get(i).startsWith("gelb") || deck.get(i).startsWith("rot")){
                 farbe = deck.get(i).split(":")[0];
                 karte = deck.get(i).split(":")[1];
