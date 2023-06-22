@@ -563,7 +563,7 @@ public class Main
                             visualisiereSpielfeld(2);
                             continue;
                         } else if (canplay == false && spielergezogen == true){
-                            ut.print("Du kannst keine Karte spielen! Du musst aussetzen! (Enter dr\u00fccken zum weiterspielen)");
+                            ut.print("Du kannst keine Karte spielen! (Enter dr\u00fccken zum weiterspielen)");
                             ut.input();
                         }
                         else{
