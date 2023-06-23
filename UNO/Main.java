@@ -107,9 +107,7 @@ public class Main
             if (stapel.startsWith("blau") || stapel.startsWith("gruen") || stapel.startsWith("gelb") || stapel.startsWith("rot")){
                 // break beendet eine schleife
                 break;
-            } else {
-                stapel = kartenstapel.ziehekarte();
-            }
+            } 
         }
 
         // ut.clr() ist eine funktion, die die konsole leert
@@ -668,13 +666,6 @@ public class Main
                         if (kartenstapel.selbeFarbe(computerdeck.get(i), wunsch+":")){
                             canplay = true;
                         }
-                    }
-                    if (canplay == false){
-                        ut.print("Der Computer kann keine Karte spielen! Er zieht eine Karte! (Enter dr\u00fccken zum weiterspielen)");
-                        ut.input();
-                        computerdeck.add(kartenstapel.ziehekarte());
-                        visualisiereSpielfeld(1);
-
                     }
                     //clear() ist eine ArrayList Methode, welche alle Elemente aus der Liste entfernt
                     computerdeckkopie.clear();
