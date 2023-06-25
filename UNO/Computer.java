@@ -8,7 +8,7 @@ import java.util.Hashtable;
 import java.util.*;
 public class Computer
 {
-    public Dictionary<String, Integer> werte = new Hashtable<>();
+    private Dictionary<String, Integer> werte = new Hashtable<>();
     public Computer(){
         
         werte.put("vierplus", 100);
@@ -29,7 +29,6 @@ public class Computer
     public String visualisiereDeck(ArrayList<String> deck){
         int kartenanzahl = deck.size();
         String visualisiertesDeck = "";
-        // for i in deck
         for (int i = 0; i < kartenanzahl; i++){
             int kartennummer = i+1;
             visualisiertesDeck = visualisiertesDeck + "[" + kartennummer + "] ? | ";

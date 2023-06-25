@@ -5,54 +5,54 @@ import java.util.ArrayList;
 public class Main
 {
     // definieren von username (der name des spielers)
-    public String username;
+    String username;
 
     // definieren von ut (ut steht fuer "utility"). bezieht sich auf die "werkzeuge" klasse
-    public werkzeuge ut = new werkzeuge();
+    werkzeuge ut = new werkzeuge();
 
     // definieren von spieler und computer (spieler und computer sind objekte der klasse "Spieler" und "Computer")
-    public Spieler spieler = new Spieler();
-    public Computer computer = new Computer();
+    Spieler spieler = new Spieler();
+    Computer computer = new Computer();
 
     /*  definieren von kartenstapel (kartenstapel ist ein objekt der klasse "Kartenstapel") und ist fuer das ziehen von karten zustaendig
     sowie fuer andere kartenbasierte funktionen */
-    public kartenstapel kartenstapel = new kartenstapel();
+    kartenstapel kartenstapel = new kartenstapel();
 
     // definieren von kartenanzahl (kartenanzahl ist die anzahl der karten, die der spieler und der computer zu beginn des spiels erhalten)
-    public int kartenanzahl;
+    int kartenanzahl;
 
     // definieren von aussetzen, zweiplus, vierplus, farbwahl (diese variablen sind fuer die funktionen der karten zustaendig wenn diese gelegt werden)
-    public boolean aussetzen = false;
-    public boolean zweiplus = false;
-    public boolean vierplus = false;
-    public boolean farbwahl = false;
+    boolean aussetzen = false;
+    boolean zweiplus = false;
+    boolean vierplus = false;
+    boolean farbwahl = false;
 
     // definieren von spielergezogen (spielergezogen ist eine variable, die angibt, ob der spieler bereits gezogen hat)
-    public boolean spielergezogen = false;
+    boolean spielergezogen = false;
 
     // definieren von spielerdeck (spielerdeck ist ein array mit dynamischer laenge (je nach kartenanzahl), welches die karten des spielers speichert)
-    public ArrayList<String> spielerdeck;
+    ArrayList<String> spielerdeck;
 
     // definieren von computerdeck (computerdeck ist ein array mit dynamischer laenge (je nach kartenanzahl), welches die karten des computers speichert)
-    public ArrayList<String> computerdeck = new ArrayList<>();
+    ArrayList<String> computerdeck = new ArrayList<>();
 
     // definieren von computerdeckkopie (computerdeckkopie ist fuer funktionen des Computers notwendig)
-    public ArrayList<String> computerdeckkopie = new ArrayList<>();
+    ArrayList<String> computerdeckkopie = new ArrayList<>();
 
     // definieren von stapel (die variable stapel speichert die aktuelle karte, die auf dem stapel liegt)
-    public String stapel;
+    String stapel;
 
     // definieren von wunsch (wunsch ist die farbe, die der spieler/computer waehlt, wenn er eine farbwahl/vierplus karte legt)
-    public String wunsch;
+    String wunsch;
 
     // definieren von blau, gruen, gelb, rot (diese variablen benutzt der computer um bei einer farbwahl/vierplus karte die farbe zu waehlen)
-    public int blau;
-    public int gruen;
-    public int gelb;
-    public int rot;
-    public boolean spielt = true;
+    int blau;
+    int gruen;
+    int gelb;
+    int rot;
+    boolean spielt = true;
     // definieren von indexofbest (indexofbest ist der index der besten karte, die der computer legen koennte)
-    public int indexofbest;
+    int indexofbest;
 
     // definieren von canplay (canplay ist eine variable, die angibt, ob der spieler/computer eine karte legen kann)
     boolean canplay;
@@ -61,10 +61,13 @@ public class Main
     String[] farben = {"blau", "gruen", "gelb", "rot"};
 
     // definieren von zweiplusstack (speichert die ueberlagerung von zweiplus karten)
-    public int zweiplusstack = 0;
+    int zweiplusstack = 0;
+
+    // definieren von vierplusstack (speichert die ueberlagerung von vierplus karten)
+    int vierplusstack = 0;
 
     //definieren von schongezogen (speichert, ob der computer bereits gezogen hat)
-    public boolean schongezogen = false;
+    boolean schongezogen = false;
 
     // definieren von common (Die farbkarte die der spieler am meisten hat wenn er eine farbwahl/vierplus karte legt)
     String common;
@@ -99,6 +102,7 @@ public class Main
         // kartenstapel.generiereDeck() generiert eine arraylist mit einem deck voller karten und gibt dieses zurueck
         spielerdeck = kartenstapel.generiereDeck(kartenanzahl);
         computerdeck = kartenstapel.generiereDeck(kartenanzahl);
+        
         while (true){
             // kartenstapel.ziehekarte() zieht eine karte aus einem unendlichen deck mit wahrscheinlichkeiten und gibt diese zurueck (wird auch in generiereDeck() verwendet)
             stapel = kartenstapel.ziehekarte();
@@ -140,19 +144,121 @@ public class Main
                 
                 
                 if (vierplus){
-                    ut.print("Du musst 4 Karten ziehen! (Enter dr\u00fccken zum weiterspielen)");
+                    boolean mussziehen = true;
+                    for (int i = 0; i < spielerdeck.size(); i++){
+                        if (spielerdeck.get(i).startsWith("vierplus") ){
+                            ut.print("M\u00f6chtest du eine deiner +4 Karten überlagern? (j/n)");
+                            while (true){
+                                String input = ut.input();
+                                if (input.equals("j")){
+                                    stapel = spielerdeck.get(i);
+                                    spielerdeck.remove(i);
+                                    vierplus = true;
+                                    farbwahl = true;
+                                    vierplusstack += 4;
+                                    visualisiereSpielfeld(2);
+                                    spielt = false;
+                                    mussziehen = false;
+                                    
+                                    ut.print("Du hast eine Vierplus Karte gespielt! Welche Farbe soll gespielt werden? [1] Rot [2] Gr\u00fcn [3] Blau [4] Gelb");
+                                    blau = 0;
+                                    rot = 0;
+                                    gruen = 0;
+                                    gelb = 0;
+                                    for (int j = 0; j < spielerdeck.size(); j++){
+                                        if (spielerdeck.get(j).contains("blau")){
+                                            blau += 1;
+                                        }
+                                        else if (spielerdeck.get(j).contains("rot")){
+                                            rot += 1;
+                                        }
+                                        else if (spielerdeck.get(j).contains("gruen")){
+                                            gruen += 1;
+                                        }
+                                        else if (spielerdeck.get(j).contains("gelb")){
+                                            gelb += 1;
+                                        }
+                                    }
+                                    if (blau > rot && blau > gruen && blau > gelb){
+                                        common = "blau";
+                                    }
+                                    else if (rot > blau && rot > gruen && rot > gelb){
+                                        common = "rot";
+                                    }
+                                    else if (gruen > blau && gruen > rot && gruen > gelb){
+                                        common = "gruen";
+                                    }
+                                    else if (gelb > blau && gelb > rot && gelb > gruen){
+                                        common = "gelb";
+                                    }
+                                    else{
+                                        common = "";
+                                    }
+                                    if (!common.equals("")){
+                                        ut.print("Am meisten hast du die Farbe " + common + " auf der Hand!");
+                                    }
+                                    while(true){
+                                    int farbe;
+                                    input = ut.input();
+                                    if (input.matches("[0-9]+")){
+                                        farbe = ut.stringtoint(input);
+                                        
+                                    } else{
+                                        ut.print("Bitte gib eine Zahl ein!");
+                                        continue;
+                                    }
+                                    if (farbe == 1){
+                                        farbwahl = true;
+                                        wunsch = "rot";
+                                        break;
+                                    }
+                                    else if (farbe == 2){
+                                        farbwahl = true;
+                                        wunsch = "gruen";
+                                        break;
+                                    }
+                                    else if (farbe == 3){
+                                        farbwahl = true;
+                                        wunsch = "blau";
+                                        break;
+                                    }
+                                    else if (farbe == 4){
+                                        farbwahl = true;
+                                        wunsch = "gelb";
+                                        break;
+                                    }
+                                    else{
+                                        ut.print("Bitte waehle eine der vier Farben aus!");
+                                        
+                                    }}
+                                    break;
+
+                                } else if (input.equals("n")){
+                                    mussziehen = true;
+                                    break;
+                                } else {
+                                    ut.print("Bitte gebe j oder n ein!");
+                                }
+                            }
+                            break;
+
+                        }
+                        
+                    }
+                    if (mussziehen){
+                    ut.print("Du musst " + vierplusstack + " Karten ziehen! (Dr\u00fccke Enter)");
                     ut.input();
-                    for (int i = 0; i < 4; i++){
+                    for (int i = 0; i < vierplusstack; i++){
                         //add() ist eine funktion, die ein element zu einem array hinzufuegt (eingebaut in java)
                         spielerdeck.add(kartenstapel.ziehekarte());
                     }
                     vierplus = false;
+                    vierplusstack = 0;
+                }
                 }
                 else if (zweiplus){
                     boolean mussziehen = true;
-                    // for in in spieler deck check for a +2 card
                     for (int i = 0; i < spielerdeck.size(); i++){
-                        //if card is vierplus or farbwahl ignore
                         if (spielerdeck.get(i).startsWith("vierplus") || spielerdeck.get(i).startsWith("farbwahl")){
                             continue;
                         }
@@ -211,10 +317,6 @@ public class Main
                             // kartenstapel.selbeFarbe() ist eine funktion, die ueberprueft, ob zwei karten die gleiche farbe haben
                             if (kartenstapel.selbeFarbe(spielerdeck.get(i), stapel)){
                                 temp = spielerdeck.get(i);
-                                // move the card to the front of the array:
-                                //so first remove the card
-                                //then add it to the front
-                                //then break the loop
                                 
                                 
                                 
@@ -243,7 +345,6 @@ public class Main
                             if (stapel.startsWith(spielerdeck.get(i).split(":")[0])){
                                 temp = spielerdeck.get(i);
                                 spielerdeck.remove(i);
-                                //add to index 0
                                 spielerdeck.add(0, temp);                                
 
                             }}
@@ -285,7 +386,6 @@ public class Main
                             String inputter = ut.input();
                             // matches() ist eine funktion fuer Strings, die regex (regular expressions) also die suche nach bestimmten mustern ermoeglicht
                             if (inputter.matches("[0-9]+")){
-                                // if inputter is a index-1 of spielerdeck
                                 if (ut.stringtoint(inputter) <= spielerdeck.size()){
                                     karte = ut.stringtoint(inputter);
                                     zuspielen = spielerdeck.get(karte-1);
@@ -333,6 +433,7 @@ public class Main
                                 }}
                             else if (zuspielen.contains("vierplus")){
                                 vierplus = true;
+                                vierplusstack += 4;
                                 stapel = zuspielen;
                                 spielerdeck.remove(karte-1);
                                 visualisiereSpielfeld(2);
@@ -355,7 +456,6 @@ public class Main
                                         gelb += 1;
                                     }
                                 }
-                                // get the most common color
                                 if (blau > rot && blau > gruen && blau > gelb){
                                     common = "blau";
                                 }
@@ -435,7 +535,6 @@ public class Main
                                         gelb += 1;
                                     }
                                 }
-                                // get the most common color
                                 if (blau > rot && blau > gruen && blau > gelb){
                                     common = "blau";
                                 }
@@ -547,7 +646,6 @@ public class Main
                             if (spielerdeck.get(i).contains(wunsch+":")){
                                 temp = spielerdeck.get(i);
                                 spielerdeck.remove(i);
-                                //add to index 0
                                 spielerdeck.add(0, temp);                                
 
                             }
@@ -575,7 +673,6 @@ public class Main
                                 input = ut.input();
                                 if (input.matches("[0-9]+")){
                                     karte = ut.stringtoint(input);
-                                    // if karte doesnt exist in the array
                                     if (karte <= spielerdeck.size()){
                                         
                                         zuspielen = spielerdeck.get(karte-1);
@@ -628,14 +725,71 @@ public class Main
             if (aussetzen == false){
 
                 if (vierplus){
-                    for (int i = 0; i < 4; i++){
+                    boolean mussziehen = true;
+
+                    for(int j = 0; j < computerdeck.size(); j++){
+                        if (computerdeck.get(j).contains("vierplus")){
+                            stapel = computerdeck.get(j);
+                            computerdeck.remove(j);
+                            vierplus = true;
+                            vierplusstack += 4;
+                            visualisiereSpielfeld(1);
+                            farbwahl = true;
+                            blau = 0;
+                            rot = 0;
+                            gelb = 0;
+                            gruen = 0;
+
+                            for (int i = 0; i < computerdeck.size(); i++){
+                                if (!computerdeck.get(i).contains("vierplus") && !computerdeck.get(i).contains("farbwahl")){
+                                    if (computerdeck.get(i).contains("blau")){
+                                        blau++;
+                                    } else if (computerdeck.get(i).contains("rot")){
+                                        rot++;
+                                    } else if (computerdeck.get(i).contains("gelb")){
+                                        gelb++;
+                                    } else if (computerdeck.get(i).contains("gruen")){
+                                        gruen++;
+                                    }
+                                }
+
+                                
+                            }
+                            if (blau > rot && blau > gelb && blau > gruen){
+                                wunsch = "blau";
+                            } else if (rot > blau && rot > gelb && rot > gruen){
+                                wunsch = "rot";
+                            } else if (gelb > rot && gelb > blau && gelb > gruen){
+                                wunsch = "gelb";
+                            } else if (gruen > rot && gruen > gelb && gruen > blau){
+                                wunsch = "gruen";
+                            } else {
+                                int random = (int) (Math.random() * 4);
+                                wunsch = farben[random];
+                            }
+                            ut.print("Der Computer hat deine 4+ Karte \u00fcberlagert.");
+                            ut.input();
+                            spielt = false;
+                            mussziehen = false;
+                            break;
+                        }
+                    }
+                    if (mussziehen){
+                    ut.print("Der Computer zieht "+vierplusstack+" Karten! (Enter dr\u00fccken zum weiterspielen)");
+                    ut.input();
+                    
+                    for (int i = 0; i < vierplusstack; i++){
                         computerdeck.add(kartenstapel.ziehekarte());
                     }
+                    vierplusstack = 0;
                     vierplus = false;
-                
+                    
+                    visualisiereSpielfeld(1);
+                    
+
+                }
                 } else if (zweiplus){
                     boolean mussziehen = true;
-                    // check if the computer has a +2 card
                     for (int i = 0; i < computerdeck.size(); i++){
                         if (computerdeck.get(i).contains("zweiplus")){
                             // if he has one, he plays it
@@ -652,7 +806,6 @@ public class Main
                         }
                     }
                     if (mussziehen){
-                        // for times zweiplusstack
                         ut.print("Der Computer zieht "+zweiplusstack+" Karten! (Enter dr\u00fccken zum weiterspielen)");
                         ut.input();
                         for (int i = 0; i < zweiplusstack; i++){
@@ -783,6 +936,7 @@ public class Main
                             ut.print("Der Computer hat eine 4+ Karte gespielt! (Enter dr\u00fccken zum weiterspielen)");
                             ut.input();
                             vierplus = true;
+                            vierplusstack += 4;
                             farbwahl = true;
                             blau = 0;
                             rot = 0;
