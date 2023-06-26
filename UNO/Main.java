@@ -79,7 +79,7 @@ public class Main
         // ut.ascii() ist eine funktion, die den text "UNO" in ascii art ausgibt
         ut.ascii();
 
-        // ut.print() ist eine abstrahierende Methode fuer System.out.println()
+        // ut.print() ist eine verkürzende Methode fuer System.out.println()
         ut.print("\n Willkommen zu UNO in Java!\n\nVon Emil Toth, Jakob Schmid und Ulrich Weber");
         ut.print("Setze deinen Spielername: ");
 
@@ -96,7 +96,7 @@ public class Main
                 ut.print("Bitte gebe eine Zahl ein!");
             }
         }
-        //ut.stringtoint() abstrahiert Integer.parseInt() und wandelt eine String in einen Integer um
+        //ut.stringtoint() "verkürzt" Integer.parseInt() und wandelt eine String in einen Integer um
 
 
         // kartenstapel.generiereDeck() generiert eine arraylist mit einem deck voller karten und gibt dieses zurueck
